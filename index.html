@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>لعبة XO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <h1>لعبة XO</h1>
+
+    <div class="status">
+      الدور الحالي: <span id="currentPlayer">X</span>
+    </div>
+
+    <div class="board" id="board">
+      <!-- 9 مربعات -->
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <button id="resetBtn">إعادة اللعب</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
