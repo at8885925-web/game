@@ -1,11 +1,21 @@
-const boardElement = document.getElementById("board");
 const cells = document.querySelectorAll(".cell");
 const currentPlayerSpan = document.getElementById("currentPlayer");
 const resultDiv = document.getElementById("result");
 const resetBtn = document.getElementById("resetBtn");
+const resetAllBtn = document.getElementById("resetAllBtn");
+const playerXInput = document.getElementById("playerX");
+const playerOInput = document.getElementById("playerO");
+const scoreXSpan = document.getElementById("scoreX");
+const scoreOSpan = document.getElementById("scoreO");
+const scoreDrawSpan = document.getElementById("scoreDraw");
 
 let currentPlayer = "X";
 let gameActive = true;
+let scores = {
+  X: 0,
+  O: 0,
+  draw: 0
+};
 
 // مصفوفة تمثل حالة المربعات
 let gameState = ["", "", "", "", "", "", "", "", ""];
@@ -41,6 +51,7 @@ function handleCellClick(e) {
 
 function checkResult() {
   let roundWon = false;
+  let winningCombo = null;
 
   for (let i = 0; i < winningConditions.length; i++) {
     const [a, b, c] = winningConditions[i];
@@ -52,12 +63,15 @@ function checkResult() {
 
     if (valA === valB && valB === valC) {
       roundWon = true;
+      winningCombo = [a, b, c];
       break;
     }
   }
 
   if (roundWon) {
-    resultDiv.textContent = `🎉 اللاعب ${currentPlayer} فاز!`;
+    highlightWinners(winningCombo);
+    updateScore(currentPlayer);
+    resultDiv.textContent = `🎉 اللاعب ${getPlayerName(currentPlayer)} فاز!`;
     gameActive = false;
     return;
   }
@@ -65,6 +79,7 @@ function checkResult() {
   // تعادل؟
   const isDraw = !gameState.includes("");
   if (isDraw) {
+    updateScore("draw");
     resultDiv.textContent = "😅 تعادل!";
     gameActive = false;
     return;
@@ -84,7 +99,45 @@ function resetGame() {
 
   cells.forEach(cell => {
     cell.textContent = "";
-    cell.classList.remove("X", "O");
+    cell.classList.remove("X", "O", "winner");
+  });
+}
+
+function resetAll() {
+  scores = {
+    X: 0,
+    O: 0,
+    draw: 0
+  };
+  updateScoreUI();
+  resetGame();
+}
+
+function updateScore(winner) {
+  if (winner === "draw") {
+    scores.draw += 1;
+  } else {
+    scores[winner] += 1;
+  }
+  updateScoreUI();
+}
+
+function updateScoreUI() {
+  scoreXSpan.textContent = scores.X;
+  scoreOSpan.textContent = scores.O;
+  scoreDrawSpan.textContent = scores.draw;
+}
+
+function getPlayerName(symbol) {
+  if (symbol === "X") {
+    return playerXInput.value.trim() || "لاعب X";
+  }
+  return playerOInput.value.trim() || "لاعب O";
+}
+
+function highlightWinners(combo) {
+  combo.forEach(index => {
+    cells[index].classList.add("winner");
   });
 }
 
@@ -94,3 +147,4 @@ cells.forEach(cell => {
 });
 
 resetBtn.addEventListener("click", resetGame);
+resetAllBtn.addEventListener("click", resetAll);

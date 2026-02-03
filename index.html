@@ -9,6 +9,32 @@
   <div class="game-container">
     <h1>لعبة XO</h1>
 
+    <div class="players">
+      <label>
+        اللاعب X
+        <input id="playerX" type="text" placeholder="اسم اللاعب X" value="لاعب ١">
+      </label>
+      <label>
+        اللاعب O
+        <input id="playerO" type="text" placeholder="اسم اللاعب O" value="لاعب ٢">
+      </label>
+    </div>
+
+    <div class="scoreboard">
+      <div class="score">
+        <span class="score-label">X</span>
+        <span id="scoreX">0</span>
+      </div>
+      <div class="score">
+        <span class="score-label">O</span>
+        <span id="scoreO">0</span>
+      </div>
+      <div class="score">
+        <span class="score-label">تعادلات</span>
+        <span id="scoreDraw">0</span>
+      </div>
+    </div>
+
     <div class="status">
       الدور الحالي: <span id="currentPlayer">X</span>
     </div>
@@ -28,7 +54,10 @@
 
     <div class="result" id="result"></div>
 
-    <button id="resetBtn">إعادة اللعب</button>
+    <div class="actions">
+      <button id="resetBtn">جولة جديدة</button>
+      <button id="resetAllBtn" class="ghost">تصفير النتائج</button>
+    </div>
   </div>
 
   <script src="script.js"></script>
