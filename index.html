@@ -1,36 +1,83 @@
-<!DOCTYPE html>
-<html lang="ar">
+<!doctype html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>لعبة XO</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101b2b" />
+  <title>نغمة | مشغل سوداني محلي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="game-container">
-    <h1>لعبة XO</h1>
+  <div class="app-shell" id="appShell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="نغمة، الصفحة الرئيسية"><span class="brand-mark">ن</span><span>نغمة</span></a>
+      <nav class="main-nav" aria-label="التنقل الرئيسي">
+        <button class="nav-item active" data-view="home"><span>⌂</span> الرئيسية</button>
+        <button class="nav-item" data-view="library"><span>♫</span> مكتبتي <b id="songCount">00</b></button>
+        <button class="nav-item" data-view="favorites"><span>♡</span> المفضلة <b id="favoriteCount">00</b></button>
+      </nav>
+      <div class="side-divider"></div>
+      <button class="create-playlist" id="newPlaylist"><span>＋</span> قائمة تشغيل جديدة</button>
+      <div class="playlist-label">قوائمك</div>
+      <div class="playlist-links">
+        <button class="playlist-link active-playlist"><i></i> لمة الأصحاب <span>12</span></button>
+        <button class="playlist-link"><i class="orange"></i> مشاوير الخرطوم <span>08</span></button>
+        <button class="playlist-link"><i class="blue"></i> ليالي النيل <span>16</span></button>
+      </div>
+      <div class="sidebar-bottom"><button id="settingsBtn"><span>⚙</span> الإعدادات</button><button id="aboutBtn"><span>?</span> عن نغمة</button></div>
+    </aside>
 
-    <div class="status">
-      الدور الحالي: <span id="currentPlayer">X</span>
-    </div>
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu">☰</button>
+        <div class="crumb"><span>الرئيسية</span><em>/</em><b>اكتشف</b></div>
+        <div class="header-actions"><button class="round-button" id="searchBtn" title="بحث">⌕</button><button class="profile-button">م <i></i></button></div>
+      </header>
 
-    <div class="board" id="board">
-      <!-- 9 مربعات -->
-      <div class="cell" data-index="0"></div>
-      <div class="cell" data-index="1"></div>
-      <div class="cell" data-index="2"></div>
-      <div class="cell" data-index="3"></div>
-      <div class="cell" data-index="4"></div>
-      <div class="cell" data-index="5"></div>
-      <div class="cell" data-index="6"></div>
-      <div class="cell" data-index="7"></div>
-      <div class="cell" data-index="8"></div>
-    </div>
+      <section class="hero-panel">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> موسيقاك، بطابع سوداني</p>
+          <h1>خلي <strong>النغمة</strong><br />تونس <i>روحك</i></h1>
+          <p class="hero-description">مشغل بسيط وخفيف لاغانيك المحفوظة في جهازك. افتح مكتبتك واستمتع بالصوت البتحبو.</p>
+          <button class="primary-button" id="chooseFiles"><span>＋</span> أضف أغاني من الجهاز</button>
+          <input type="file" id="fileInput" accept="audio/*" multiple hidden />
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="sun"></div><div class="cloud cloud-one"></div><div class="cloud cloud-two"></div>
+          <div class="palm palm-right"><b></b><i></i><em></em></div><div class="palm palm-left"><b></b><i></i><em></em></div>
+          <div class="dunes"></div><div class="water"></div><div class="art-wave wave-a"></div><div class="art-wave wave-b"></div>
+          <div class="cassette"><span></span><span></span><b>نغمة</b></div>
+          <div class="art-note note-one">♪</div><div class="art-note note-two">♫</div>
+        </div>
+      </section>
 
-    <div class="result" id="result"></div>
+      <section class="quick-section">
+        <div class="section-heading"><div><p>عودة سريعة</p><h2>اسمع من حيث وقفت</h2></div><button class="text-button">عرض الكل <span>←</span></button></div>
+        <div class="continue-card">
+          <div class="cover cover-nile"><span>♪</span></div><div class="continue-info"><small>آخر تشغيل</small><h3 id="recentTitle">لسه ما شغلت حاجة</h3><p id="recentMeta">أضف أغانيك المحلية للبدء</p></div>
+          <button class="continue-play" id="recentPlay" aria-label="تشغيل">▶</button>
+        </div>
+      </section>
 
-    <button id="resetBtn">إعادة اللعب</button>
+      <section class="songs-section">
+        <div class="section-heading"><div><p>مكتبتك المحلية</p><h2>أغاني الجهاز</h2></div><div class="library-actions"><button class="filter-button" id="shuffleBtn">⇄ خلط</button><button class="filter-button" id="sortBtn">⇅ الأحدث</button></div></div>
+        <div class="empty-library" id="emptyLibrary"><div class="empty-icon">♫</div><h3>مكتبتك تنتظر النغمات</h3><p>اختار ملفات صوتية من جهازك وستظهر هنا مباشرة.</p><button class="secondary-button" id="emptyAdd">اختار أغاني</button></div>
+        <div class="track-table hidden" id="trackTable"><div class="track-header"><span>#</span><span>العنوان</span><span>الألبوم</span><span>المدة</span><span></span></div><div id="trackList"></div></div>
+      </section>
+    </main>
   </div>
 
+  <div class="player-bar">
+    <div class="now-playing"><div class="mini-cover" id="miniCover">♫</div><div><h4 id="nowTitle">اختر أغنية</h4><p id="nowArtist">من جهازك المحلي</p></div><button class="heart-button" id="heartBtn">♡</button></div>
+    <div class="player-center"><div class="controls"><button id="shuffleControl" title="خلط">⇄</button><button id="prevBtn" title="السابق">▮◀</button><button class="play-main" id="playBtn" title="تشغيل">▶</button><button id="nextBtn" title="التالي">▶▮</button><button id="repeatBtn" title="تكرار">↻</button></div><div class="progress-row"><span id="elapsed">0:00</span><input id="progress" type="range" min="0" max="100" value="0" aria-label="تقدم الأغنية" /><span id="duration">0:00</span></div></div>
+    <div class="player-tools"><button id="queueBtn" title="قائمة الانتظار">☷</button><button id="visualizerBtn" class="visualizer-toggle" title="المؤثر البصري"><i></i><i></i><i></i><i></i></button><span>🔊</span><input id="volume" type="range" min="0" max="100" value="75" aria-label="مستوى الصوت" /></div>
+  </div>
+
+  <aside class="settings-panel" id="settingsPanel" aria-hidden="true"><div class="settings-head"><div><p>تخصيص التجربة</p><h2>الإعدادات</h2></div><button id="closeSettings">×</button></div><div class="setting-group"><label>المظهر</label><div class="theme-options"><button class="theme-choice selected" data-theme="night"><i></i> ليلي</button><button class="theme-choice" data-theme="sand"><i></i> رملي</button></div></div><div class="setting-row"><div><b>التشغيل التلقائي</b><p>شغل الأغنية التالية تلقائياً</p></div><button class="switch on" data-setting="autoplay"><i></i></button></div><div class="setting-row"><div><b>المؤثر البصري</b><p>حركة النغمات أثناء التشغيل</p></div><button class="switch on" data-setting="visualizer"><i></i></button></div><div class="setting-row"><div><b>حفظ مستوى الصوت</b><p>تذكر مستواه في زيارتك القادمة</p></div><button class="switch" data-setting="volume"><i></i></button></div><div class="setting-group"><label>سرعة التشغيل</label><div class="speed-options"><button>0.75×</button><button class="selected">1×</button><button>1.25×</button><button>1.5×</button></div></div></aside>
+  <div class="overlay" id="overlay"></div><audio id="audio"></audio><div class="toast" id="toast"></div>
   <script src="script.js"></script>
 </body>
 </html>
